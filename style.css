@@ -1,0 +1,407 @@
+/* ---------- Character container styling (optional) ---------- */
+.characters {
+  display: flex;
+  gap: 40px;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 40px;
+  background: linear-gradient(180deg,#fce7f7 0%, #ffeef9 100%);
+  min-height: 60vh;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* ---------- shared utilities ---------- */
+.character {
+  --size: 180px;         /* default size */
+  --accent: #ff7fc7;     /* pink tone */
+  --accent-2: #ffd0ea;   /* lighter pink */
+  width: var(--size);
+  height: calc(var(--size) * 0.78);
+  position: relative;
+  transform-origin: 50% 70%;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* gentle floating for all characters */
+@keyframes floaty {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+.character { animation: floaty 3.8s ease-in-out infinite; }
+
+/* ---------- Pink Dragon base ---------- */
+.dragon {
+  --size: 180px;
+  --body: var(--accent);
+  --belly: var(--accent-2);
+  --wing: #ffb3d9;
+  --eye: #1a1a1a;
+  position: relative;
+  width: var(--size);
+  height: calc(var(--size)*0.7);
+}
+
+/* body */
+.dragon .body {
+  position: absolute;
+  left: 12%;
+  top: 22%;
+  width: 76%;
+  height: 54%;
+  border-radius: 60% 40% 70% 50% / 50% 40% 60% 50%;
+  background: radial-gradient(circle at 30% 25%, #ffffff55, var(--body));
+  box-shadow: inset -10px -8px 24px rgba(0,0,0,0.06);
+  transform-origin: 50% 50%;
+  z-index: 10;
+}
+
+/* belly */
+.dragon .belly {
+  position: absolute;
+  left: 26%;
+  top: 48%;
+  width: 48%;
+  height: 28%;
+  border-radius: 40% / 60%;
+  background: linear-gradient(180deg, var(--belly), #fff8);
+  z-index: 11;
+}
+
+/* head */
+.dragon .head {
+  position: absolute;
+  left: 52%;
+  top: 6%;
+  width: 44%;
+  height: 44%;
+  transform: translate(-10%,0) rotate(-6deg);
+  z-index: 20;
+}
+
+/* snout */
+.dragon .snout {
+  position: absolute;
+  left: 10%;
+  top: 40%;
+  width: 68%;
+  height: 42%;
+  background: var(--body);
+  border-radius: 50% 50% 40% 60% / 60% 60% 40% 40%;
+  box-shadow: inset -6px -4px 12px rgba(0,0,0,0.06);
+}
+
+/* nostril */
+.dragon .nostril {
+  position: absolute;
+  left: 62%;
+  top: 54%;
+  width: 6%;
+  height: 8%;
+  background: rgba(0,0,0,0.18);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+}
+
+/* eye (separate element for blink) */
+.dragon .eye {
+  position: absolute;
+  left: 32%;
+  top: 28%;
+  width: 18%;
+  height: 18%;
+  background: var(--eye);
+  border-radius: 50%;
+  box-shadow: 0 2px 0 rgba(255,255,255,0.08) inset;
+  z-index: 22;
+  overflow: hidden;
+}
+.dragon .eye::after {
+  content: "";
+  position: absolute;
+  left: 26%;
+  top: 18%;
+  width: 40%;
+  height: 40%;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.95;
+}
+
+/* eyelid animation (blink) */
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  92%, 96% { transform: scaleY(0.05); }
+}
+.dragon .eye { transform-origin: center; animation: blink 5s infinite ease-in-out; }
+
+/* horn */
+.dragon .horn {
+  position: absolute;
+  left: 86%;
+  top: -4%;
+  width: 18%;
+  height: 32%;
+  transform: rotate(12deg);
+  z-index: 30;
+}
+.dragon .horn::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg,#fff2 0%, #ffe0ff 60%, #fff0 100%);
+  clip-path: polygon(50% 0%, 65% 50%, 50% 100%, 35% 50%);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+}
+
+/* wing */
+.dragon .wing {
+  position: absolute;
+  left: -6%;
+  top: 16%;
+  width: 62%;
+  height: 56%;
+  transform-origin: 88% 36%;
+  z-index: 6;
+  pointer-events: none;
+}
+.dragon .wing::before {
+  content: "";
+  position:absolute;
+  left:0; top:0;
+  width:100%; height:100%;
+  background: radial-gradient(60% 70% at 20% 30%, #fff6, var(--wing));
+  border-radius: 50% 30% 20% 70% / 50% 40% 60% 40%;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+/* wing flap animation */
+@keyframes flap {
+  0% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-18deg) translateY(-6px); }
+  100% { transform: rotate(0deg) translateY(0); }
+}
+.dragon .wing { animation: flap 0.6s ease-in-out infinite; }
+
+/* tail */
+.dragon .tail {
+  position: absolute;
+  left: -6%;
+  top: 54%;
+  width: 64%;
+  height: 24%;
+  transform-origin: 8% 40%;
+  z-index: 4;
+}
+.dragon .tail::before {
+  content: "";
+  position:absolute;
+  left: 0; top: 0;
+  width: 72%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--body), #ff4fb2 70%);
+  border-radius: 40% 30% 20% 60% / 40% 40% 30% 60%;
+  transform: rotate(-12deg);
+}
+
+/* tail flick */
+@keyframes tailflick {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-12deg); }
+  100% { transform: rotate(0deg); }
+}
+.dragon .tail { animation: tailflick 1.3s ease-in-out infinite; }
+
+/* little spikes along the back */
+.dragon .spike {
+  position:absolute;
+  width:8%;
+  height:12%;
+  background: linear-gradient(180deg,#fff6,#ffd0f0);
+  border-radius: 30% 70% 30% 70%;
+  transform-origin: 50% 100%;
+  z-index: 12;
+}
+.dragon .spike.s1 { left: 18%; top: 32%; transform: rotate(-18deg); }
+.dragon .spike.s2 { left: 34%; top: 26%; transform: rotate(-8deg); }
+.dragon .spike.s3 { left: 50%; top: 22%; transform: rotate(8deg); }
+.dragon .spike.s4 { left: 68%; top: 26%; transform: rotate(18deg); }
+
+/* subtle shadow under creature */
+.dragon .shadow {
+  position:absolute;
+  left:50%; bottom: -2%;
+  width: 52%;
+  height: 10%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.16), rgba(0,0,0,0.04));
+  border-radius: 50%;
+  z-index: 1;
+  filter: blur(8px);
+  opacity: 0.9;
+}
+
+/* Differentiate two dragons: sizes and facing */
+.dragon.dragon--small { --size: 140px; }
+.dragon.dragon--big   { --size: 220px; }
+
+/* flip one dragon to face the other */
+.dragon.dragon--left { transform: scaleX(-1); }
+
+/* ---------- Anime character ---------- */
+.anime {
+  --size: 180px;
+  width: var(--size);
+  height: calc(var(--size) * 1.05);
+  position: relative;
+  display: inline-block;
+  transform-origin: 50% 70%;
+}
+
+/* head circle */
+.anime .head {
+  position: absolute;
+  top: 6%;
+  left: 12%;
+  width: 76%;
+  height: 62%;
+  background: linear-gradient(180deg,#fff 0%, #ffecec 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  z-index: 20;
+  overflow: visible;
+}
+
+/* hair base */
+.anime .hair {
+  position:absolute;
+  left: 6%;
+  top: -6%;
+  width: 88%;
+  height: 60%;
+  background: linear-gradient(180deg,#ffb6ff,#ff78d0);
+  border-radius: 56% 44% 46% 54% / 70% 72% 28% 30%;
+  z-index: 30;
+  box-shadow: inset -6px -6px 12px rgba(255,255,255,0.08);
+  transform-origin: center;
+}
+
+/* hair fringe pieces (pseudo bangs) */
+.anime .hair::before,
+.anime .hair::after {
+  content: "";
+  position:absolute;
+  bottom: -8%;
+  width: 48%;
+  height: 36%;
+  background: linear-gradient(180deg,#ffd0f7,#ff9edb);
+  border-radius: 60% 40% 40% 60% / 60% 50% 50% 50%;
+  z-index: 31;
+}
+.anime .hair::before { left: 4%; transform: rotate(-6deg); }
+.anime .hair::after  { right: 4%; transform: rotate(6deg); }
+
+/* eyes */
+.anime .eye {
+  position:absolute;
+  top: 38%;
+  width: 18%;
+  height: 14%;
+  background: radial-gradient(circle at 40% 30%, #ffffff 0%, #9de6ff 35%, #1b5fa8 100%);
+  border-radius: 50% / 60% ;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12) inset;
+  z-index: 40;
+  overflow: hidden;
+}
+.anime .eye.left { left: 28%; transform: translateX(-12%); }
+.anime .eye.right { right: 28%; transform: translateX(12%); }
+/* pupil highlight */
+.anime .eye::after {
+  content:"";
+  position:absolute;
+  left:26%; top:10%;
+  width:28%; height:28%;
+  background: #fff;
+  border-radius:50%;
+  opacity:0.95;
+  filter: blur(0.2px);
+}
+
+/* blush */
+.anime .blush {
+  position:absolute;
+  width: 12%;
+  height: 6%;
+  background: linear-gradient(90deg, #ffb6d6, #ff95ce);
+  left: 24%;
+  top: 56%;
+  border-radius: 50%;
+  opacity: 0.92;
+  transform: translateX(-8%);
+  z-index: 35;
+}
+.anime .blush.right { left: 64%; transform: translateX(8%); }
+
+/* mouth */
+.anime .mouth {
+  position:absolute;
+  left: 50%;
+  top: 60%;
+  width: 12%;
+  height: 6%;
+  transform: translateX(-50%);
+  border-radius: 0 0 50% 50% / 0 0 60% 60%;
+  background: linear-gradient(180deg,#fff, #ffccd6);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.06);
+  z-index: 40;
+}
+
+/* neck & body simple */
+.anime .neck {
+  position:absolute;
+  left: 40%;
+  top: 64%;
+  width: 20%;
+  height: 10%;
+  background: linear-gradient(180deg,#ffefef, #ffdfe6);
+  border-radius: 8px;
+  z-index: 18;
+}
+.anime .torso {
+  position:absolute;
+  left: 10%;
+  top: 74%;
+  width: 80%;
+  height: 28%;
+  background: linear-gradient(180deg,#fff, #ffdff6);
+  border-radius: 18px;
+  z-index: 12;
+  box-shadow: 0 8px 14px rgba(0,0,0,0.06);
+}
+
+/* hair side-ponytail flourish */
+.anime .ponytail {
+  position:absolute;
+  right: -6%;
+  top: 28%;
+  width: 40%;
+  height: 56%;
+  background: linear-gradient(180deg,#ff8ecb,#ff5fa8);
+  border-radius: 40% 60% 50% 50% / 40% 50% 60% 60%;
+  transform: rotate(14deg);
+  z-index: 10;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+}
+
+/* subtle head bob and blink for anime */
+@keyframes animeBlink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  92%, 96% { transform: scaleY(0.06); }
+}
+.anime .eye { animation: animeBlink 6s infinite linear; }
+
+/* final touches: hover scaling & cursor */
+.character:hover { transform: scale(1.04); cursor: pointer; transition: transform 160ms ease; }
